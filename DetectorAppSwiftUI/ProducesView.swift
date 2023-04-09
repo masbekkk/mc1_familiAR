@@ -27,11 +27,27 @@ import SwiftUI
 //}
 
 
+struct Produces{
+    var id: Int
+    let title, imageUrl: String
+}
 
 @available(iOS 16.0, *)
 struct ProducesView: View {
     @State var searchQuery = ""
-    @State private var recentSearches: [String] = ["apple", "brocolli", "beef", "lemon", "chicken meat", "spinach"]
+    @State private var recentSearches: [String] = ["apple", "brocolli", "beef", "lemon", "chicken meat", "spinach"];
+    //    let domain = "http://192.168.0.102/";
+    //    let directoryAssets = "";
+    //    init(searchQuery: String = "", recentSearches: [String], directoryAssets) {
+    //        self.searchQuery = searchQuery
+    //        self.recentSearches = recentSearches
+    //        directoryAssets = self.domain + "academy23/assets/";
+    //        self.directoryAssets = directoryAssets
+    //
+    //    }
+    @State var produces: [Produces] = [
+        Produces(id: 0, title: "apple", imageUrl: "http://192.168.0.102/academy23/assets/apple.jpeg")
+    ]
     var body: some View {
         NavigationView()
         {
@@ -40,10 +56,10 @@ struct ProducesView: View {
                     HStack {
                         TextField("Fruits, Vegetables, Meats and More", text: $searchQuery)
                         Spacer()
-//                        Spacer()
+                        //                        Spacer()
                         Image(systemName: "mic.fill")
                             .foregroundColor(.gray)
-//                            .padding(.leading, 50)
+                        //                            .padding(.leading, 50)
                     }
                     .padding(.horizontal,30)
                     .padding(.vertical,8)
@@ -62,13 +78,13 @@ struct ProducesView: View {
                     HStack{
                         VStack(alignment: .leading){
                             Text("Discover")
-                                .font(.title)
+                                .font(.title2)
                                 .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, 10)
-//                        .padding()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.leading, 10)
+                            //                        .padding()
                         }
-//                        Spacer()
+                        //                        Spacer()
                     }
                     
                     LazyVGrid(columns: [GridItem(.flexible()),
@@ -80,15 +96,62 @@ struct ProducesView: View {
                                     .foregroundColor(.blue)
                                     .underline()
                             })
-//                            Label(term, systemImage: "magnifyingglass")
-//                                .foregroundColor(.blue)
+                            //                            Label(term, systemImage: "magnifyingglass")
+                            //                                .foregroundColor(.blue)
                         }
                         .padding(.horizontal)
-                        
                     }
                     
-                    
-                    Text("Okeee")
+                    VStack(alignment: .leading){
+                        HStack{
+                            Text("Fruits")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .padding(.leading, 10)
+                            //                            if isSearchBarEmpty {
+                            NavigationLink(destination: ContentView()){
+                                Text("See All")
+                                    .font(.subheadline)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .padding(.trailing,20)
+                            }
+                            //                            }
+                        }
+                        ScrollView(.horizontal) {
+                            HStack {
+                                VStack{
+                                    AsyncImage(url: URL(string: "http://192.168.0.102/academy23/assets/apple.jpg")) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                .fill(.red)
+                                                .frame(width: 80, height: 80)
+                                        case .success(let image):
+                                            image.resizable()
+                                                .resizable()
+                                                .cornerRadius(40)
+                                                .frame(width: 80, height: 80)
+                                            
+                                        case .failure:
+                                            Image(systemName: "photo")
+                                                .frame(maxWidth: 300, maxHeight: 100)
+                                        @unknown default:
+                                            // Since the AsyncImagePhase enum isn't frozen,
+                                            // we need to add this currently unused fallback
+                                            // to handle any new cases that might be added
+                                            // in the future:
+                                            RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                .fill(.red)
+                                                .frame(width: 80, height: 80)
+                                        }
+                                    }
+                                    Text("apple")
+                                }
+                                
+                            }
+                        }
+                    }
+                    .padding(20)
                 }
             }
             .navigationTitle("Produces")
