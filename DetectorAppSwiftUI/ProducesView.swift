@@ -41,6 +41,7 @@ struct jenisProduce{
 
 @available(iOS 16.0, *)
 struct ProducesView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var searchQuery = ""
     @State private var recentSearches: [String] = ["apple", "brocolli", "beef", "lemon", "chicken meat", "spinach"];
     //    let domain = "http://192.168.0.102/";
@@ -106,27 +107,6 @@ struct ProducesView: View {
             ScrollView{
                 // if(searchQuery.isEmpty) {
                 VStack{
-                    // HStack {
-                    //     TextField("Fruits, Vegetables, Meats and More", text: $searchQuery)
-                    //     Spacer()
-                    //     //                        Spacer()
-                    //     Image(systemName: "mic.fill")
-                    //         .foregroundColor(.gray)
-                    //     //                            .padding(.leading, 50)
-                    // }
-                    // .padding(.horizontal,30)
-                    // .padding(.vertical,8)
-                    // .background(Color(.systemGray6))
-                    // .cornerRadius(8)
-                    // .padding()
-                    // .overlay(
-                    //     HStack {
-                    //         Image(systemName: "magnifyingglass")
-                    //             .foregroundColor(.gray)
-                    //             .padding(.leading, 20)
-                    //         Spacer()
-                    //     }
-                    // )
                     if(searchQuery.isEmpty) {
                         HStack{
                             VStack(alignment: .leading){
@@ -145,11 +125,6 @@ struct ProducesView: View {
                                             GridItem(.flexible())],
                                   alignment: .leading, spacing: 15) {
                             ForEach(recentSearches, id: \.self) { term in
-//                                Link(destination: URL(string: "https://www.apple.com")!, label: {
-//                                    Label(term, systemImage: "magnifyingglass")
-//                                        .foregroundColor(.blue)
-//                                        .underline()
-//                                })
                                 Button {
                                     searchQuery = term
                                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -162,109 +137,132 @@ struct ProducesView: View {
                                     
                                 }
                                 .simultaneousGesture(TapGesture())
-
+                                
                             }
                             .padding(.horizontal)
                         }
                     }
-                    
-                    
-                    //for fruits
-                    VStack(alignment: .leading){
-                        HStack{
-                            Text("Fruits")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .padding(.leading, 10)
-                            //                            if isSearchBarEmpty {
-                            NavigationLink(destination: ContentView()){
-                                Text("See All")
-                                    .font(.subheadline)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .padding(.trailing,20)
-                            }
-                            //                            }
+                }
+                
+                
+                //for fruits
+                VStack(alignment: .leading){
+                    HStack{
+                        Text("Fruits")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .padding(.leading, 10)
+                        //                            if isSearchBarEmpty {
+                        NavigationLink(destination: ContentView()){
+                            Text("See All")
+                                .font(.subheadline)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.trailing,20)
                         }
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(fruits, id: \.id) { fruit in
-                                    if(searchQuery.isEmpty)
-                                    {
-                                        VStack{
-                                            AsyncImage(url: URL(string: fruit.imageUrl)) { phase in
-                                                switch phase {
-                                                case .empty:
-                                                    RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                                        .fill(.red)
-                                                        .frame(width: 80, height: 80)
-                                                case .success(let image):
-                                                    image.resizable()
-                                                        .resizable()
-                                                        .cornerRadius(40)
-                                                        .frame(width: 80, height: 80)
-                                                    
-                                                case .failure:
-                                                    Image(systemName: "photo")
-                                                        .frame(maxWidth: 300, maxHeight: 100)
-                                                @unknown default:
-                                                    // Since the AsyncImagePhase enum isn't frozen,
-                                                    // we need to add this currently unused fallback
-                                                    // to handle any new cases that might be added
-                                                    // in the future:
-                                                    RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                                        .fill(.red)
-                                                        .frame(width: 80, height: 80)
-                                                }
-                                            }
-                                            Text(fruit.title)
-                                                .font(.caption)
-                                                .foregroundColor(.black)
-                                        }
-                                        
-                                    }else {
-                                        if(searchQuery == fruit.title) {
-                                            VStack{
-                                                AsyncImage(url: URL(string: fruit.imageUrl)) { phase in
-                                                    switch phase {
-                                                    case .empty:
-                                                        RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                                            .fill(.red)
-                                                            .frame(width: 80, height: 80)
-                                                    case .success(let image):
-                                                        image.resizable()
-                                                            .resizable()
-                                                            .cornerRadius(40)
-                                                            .frame(width: 80, height: 80)
-                                                        
-                                                    case .failure:
-                                                        Image(systemName: "photo")
-                                                            .frame(maxWidth: 300, maxHeight: 100)
-                                                    @unknown default:
-                                                        // Since the AsyncImagePhase enum isn't frozen,
-                                                        // we need to add this currently unused fallback
-                                                        // to handle any new cases that might be added
-                                                        // in the future:
-                                                        RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                                            .fill(.red)
-                                                            .frame(width: 80, height: 80)
-                                                    }
-                                                }
-                                                Text(fruit.title)
-                                                    .font(.caption)
-                                                //                                                        .foregroundColor(.black)
+                        //                            }
+                    }
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(fruits, id: \.id) { fruit in
+                                if(searchQuery.isEmpty || searchQuery == fruit.title)
+                                {
+                                    VStack{
+                                        AsyncImage(url: URL(string: fruit.imageUrl)) { phase in
+                                            switch phase {
+                                            case .empty:
+                                                RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                    .fill(.red)
+                                                    .frame(width: 80, height: 80)
+                                            case .success(let image):
+                                                image.resizable()
+                                                    .resizable()
+                                                    .cornerRadius(40)
+                                                    .frame(width: 80, height: 80)
+                                                
+                                            case .failure:
+                                                Image(systemName: "photo")
+                                                    .frame(maxWidth: 300, maxHeight: 100)
+                                            @unknown default:
+                                                // Since the AsyncImagePhase enum isn't frozen,
+                                                // we need to add this currently unused fallback
+                                                // to handle any new cases that might be added
+                                                // in the future:
+                                                RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                    .fill(.red)
+                                                    .frame(width: 80, height: 80)
                                             }
                                         }
+                                        Text(fruit.title)
+                                            .font(.caption)
                                     }
                                     
-                                    
-                                    
                                 }
-                                
                             }
+                            
                         }
                     }
-                    .padding(20)
                 }
+                .padding(20)
+                // }
+                
+                //for fruits
+                VStack(alignment: .leading){
+                    HStack{
+                        Text("Fruits")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .padding(.leading, 10)
+                        //                            if isSearchBarEmpty {
+                        NavigationLink(destination: ContentView()){
+                            Text("See All")
+                                .font(.subheadline)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.trailing,20)
+                        }
+                        //                            }
+                    }
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(fruits, id: \.id) { fruit in
+                                if(searchQuery.isEmpty || searchQuery == fruit.title)
+                                {
+                                    VStack{
+                                        AsyncImage(url: URL(string: fruit.imageUrl)) { phase in
+                                            switch phase {
+                                            case .empty:
+                                                RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                    .fill(.red)
+                                                    .frame(width: 80, height: 80)
+                                            case .success(let image):
+                                                image.resizable()
+                                                    .resizable()
+                                                    .cornerRadius(40)
+                                                    .frame(width: 80, height: 80)
+                                                
+                                            case .failure:
+                                                Image(systemName: "photo")
+                                                    .frame(maxWidth: 300, maxHeight: 100)
+                                            @unknown default:
+                                                // Since the AsyncImagePhase enum isn't frozen,
+                                                // we need to add this currently unused fallback
+                                                // to handle any new cases that might be added
+                                                // in the future:
+                                                RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                    .fill(.red)
+                                                    .frame(width: 80, height: 80)
+                                            }
+                                        }
+                                        Text(fruit.title)
+                                            .font(.caption)
+                                    }
+                                    
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+                .padding(20)
                 
                 //for vegetables
                 VStack(alignment: .leading){
@@ -313,7 +311,6 @@ struct ProducesView: View {
                                     }
                                     Text(fruit.title)
                                         .font(.caption)
-                                        .foregroundColor(.black)
                                 }
                                 
                             }
@@ -336,11 +333,10 @@ struct ProducesView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     .simultaneousGesture(TapGesture())
-//                    .buttonStyle(PlainButtonStyle())
                 }
             }
         }
-        
+        //        .environment(\.colorScheme, .dark)
     }
 }
 
