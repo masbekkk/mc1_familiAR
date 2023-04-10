@@ -27,10 +27,17 @@ import SwiftUI
 //}
 
 
-struct Produces{
+struct Produces : Hashable{
     var id: Int
     let title, imageUrl: String
 }
+
+struct jenisProduce{
+    var id: Int;
+    let content: [Produces]
+}
+
+
 
 @available(iOS 16.0, *)
 struct ProducesView: View {
@@ -45,63 +52,124 @@ struct ProducesView: View {
     //        self.directoryAssets = directoryAssets
     //
     //    }
-    @State var produces: [Produces] = [
-        Produces(id: 0, title: "apple", imageUrl: "http://192.168.0.102/academy23/assets/apple.jpeg")
-    ]
+    var fruits: [Produces] = [
+        Produces(id: 0, title: "apple", imageUrl: "http://192.168.0.109/academy23/assets/apple.jpg"),
+        Produces(id: 1, title: "avocado", imageUrl: "http://192.168.0.109/academy23/assets/avocado.jpg")
+    ];
+    
+    var vegetables: [Produces] = [
+        Produces(id: 0, title: "brocolli", imageUrl: "http://192.168.0.109/academy23/assets/broccolli.jpg"),
+        Produces(id: 1, title: "carrot", imageUrl: "http://192.168.0.109/academy23/assets/carrot.jpg")
+    ];
+    
+    var allProduces: [[String: Any]] = []
+    
+    
+    init() {
+        for produce in fruits {
+            allProduces.append(["type": "Fruits", "produce": produce])
+        }
+        for produce in vegetables {
+            allProduces.append(["type": "Vegetables", "produce": produce])
+        }
+        
+    }
+    
+    var filteredFruits: [Produces] {
+        fruits.filter { fruit in
+            searchQuery.isEmpty ||
+            (fruit.title.lowercased().starts(with: searchQuery.lowercased()) &&
+             fruit.title.lowercased().first == searchQuery.lowercased().first)
+        }
+    }
+    
+    var filteredVegetables: [Produces] {
+        vegetables.filter { vegetable in
+            searchQuery.isEmpty ||
+            (vegetable.title.lowercased().starts(with: searchQuery.lowercased()) &&
+             vegetable.title.lowercased().first == searchQuery.lowercased().first)
+        }
+    }
+    
+    var searchResults: [Produces] {
+        if searchQuery.isEmpty {
+            return fruits + vegetables
+        } else {
+            return (fruits + vegetables).filter { $0.title.lowercased().contains(searchQuery.lowercased()) } }
+    }
+    
+    
+    
     var body: some View {
-        NavigationView()
+        NavigationStack()
         {
             ScrollView{
+                // if(searchQuery.isEmpty) {
                 VStack{
-                    HStack {
-                        TextField("Fruits, Vegetables, Meats and More", text: $searchQuery)
-                        Spacer()
-                        //                        Spacer()
-                        Image(systemName: "mic.fill")
-                            .foregroundColor(.gray)
-                        //                            .padding(.leading, 50)
-                    }
-                    .padding(.horizontal,30)
-                    .padding(.vertical,8)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                    .padding()
-                    .overlay(
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                                .padding(.leading, 20)
-                            Spacer()
+                    // HStack {
+                    //     TextField("Fruits, Vegetables, Meats and More", text: $searchQuery)
+                    //     Spacer()
+                    //     //                        Spacer()
+                    //     Image(systemName: "mic.fill")
+                    //         .foregroundColor(.gray)
+                    //     //                            .padding(.leading, 50)
+                    // }
+                    // .padding(.horizontal,30)
+                    // .padding(.vertical,8)
+                    // .background(Color(.systemGray6))
+                    // .cornerRadius(8)
+                    // .padding()
+                    // .overlay(
+                    //     HStack {
+                    //         Image(systemName: "magnifyingglass")
+                    //             .foregroundColor(.gray)
+                    //             .padding(.leading, 20)
+                    //         Spacer()
+                    //     }
+                    // )
+                    if(searchQuery.isEmpty) {
+                        HStack{
+                            VStack(alignment: .leading){
+                                Text("Discover")
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.leading, 10)
+                                //                        .padding()
+                            }
+                            //                        Spacer()
                         }
-                    )
-                    
-                    HStack{
-                        VStack(alignment: .leading){
-                            Text("Discover")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.leading, 10)
-                            //                        .padding()
+                        
+                        //showing recent searches
+                        LazyVGrid(columns: [GridItem(.flexible()),
+                                            GridItem(.flexible())],
+                                  alignment: .leading, spacing: 15) {
+                            ForEach(recentSearches, id: \.self) { term in
+//                                Link(destination: URL(string: "https://www.apple.com")!, label: {
+//                                    Label(term, systemImage: "magnifyingglass")
+//                                        .foregroundColor(.blue)
+//                                        .underline()
+//                                })
+                                Button {
+                                    searchQuery = term
+                                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                } label: {
+                                    Label(term, systemImage: "magnifyingglass")
+                                        .underline()
+                                        .foregroundColor(.blue)
+                                        .font(.body)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    
+                                }
+                                .simultaneousGesture(TapGesture())
+
+                            }
+                            .padding(.horizontal)
                         }
-                        //                        Spacer()
                     }
                     
-                    LazyVGrid(columns: [GridItem(.flexible()),
-                                        GridItem(.flexible())],
-                              alignment: .leading, spacing: 15) {
-                        ForEach(recentSearches, id: \.self) { term in
-                            Link(destination: URL(string: "https://www.apple.com")!, label: {
-                                Label(term, systemImage: "magnifyingglass")
-                                    .foregroundColor(.blue)
-                                    .underline()
-                            })
-                            //                            Label(term, systemImage: "magnifyingglass")
-                            //                                .foregroundColor(.blue)
-                        }
-                        .padding(.horizontal)
-                    }
                     
+                    //for fruits
                     VStack(alignment: .leading){
                         HStack{
                             Text("Fruits")
@@ -119,8 +187,106 @@ struct ProducesView: View {
                         }
                         ScrollView(.horizontal) {
                             HStack {
+                                ForEach(fruits, id: \.id) { fruit in
+                                    if(searchQuery.isEmpty)
+                                    {
+                                        VStack{
+                                            AsyncImage(url: URL(string: fruit.imageUrl)) { phase in
+                                                switch phase {
+                                                case .empty:
+                                                    RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                        .fill(.red)
+                                                        .frame(width: 80, height: 80)
+                                                case .success(let image):
+                                                    image.resizable()
+                                                        .resizable()
+                                                        .cornerRadius(40)
+                                                        .frame(width: 80, height: 80)
+                                                    
+                                                case .failure:
+                                                    Image(systemName: "photo")
+                                                        .frame(maxWidth: 300, maxHeight: 100)
+                                                @unknown default:
+                                                    // Since the AsyncImagePhase enum isn't frozen,
+                                                    // we need to add this currently unused fallback
+                                                    // to handle any new cases that might be added
+                                                    // in the future:
+                                                    RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                        .fill(.red)
+                                                        .frame(width: 80, height: 80)
+                                                }
+                                            }
+                                            Text(fruit.title)
+                                                .font(.caption)
+                                                .foregroundColor(.black)
+                                        }
+                                        
+                                    }else {
+                                        if(searchQuery == fruit.title) {
+                                            VStack{
+                                                AsyncImage(url: URL(string: fruit.imageUrl)) { phase in
+                                                    switch phase {
+                                                    case .empty:
+                                                        RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                            .fill(.red)
+                                                            .frame(width: 80, height: 80)
+                                                    case .success(let image):
+                                                        image.resizable()
+                                                            .resizable()
+                                                            .cornerRadius(40)
+                                                            .frame(width: 80, height: 80)
+                                                        
+                                                    case .failure:
+                                                        Image(systemName: "photo")
+                                                            .frame(maxWidth: 300, maxHeight: 100)
+                                                    @unknown default:
+                                                        // Since the AsyncImagePhase enum isn't frozen,
+                                                        // we need to add this currently unused fallback
+                                                        // to handle any new cases that might be added
+                                                        // in the future:
+                                                        RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                            .fill(.red)
+                                                            .frame(width: 80, height: 80)
+                                                    }
+                                                }
+                                                Text(fruit.title)
+                                                    .font(.caption)
+                                                //                                                        .foregroundColor(.black)
+                                            }
+                                        }
+                                    }
+                                    
+                                    
+                                    
+                                }
+                                
+                            }
+                        }
+                    }
+                    .padding(20)
+                }
+                
+                //for vegetables
+                VStack(alignment: .leading){
+                    HStack{
+                        Text("Vegetables")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .padding(.leading, 10)
+                        //                            if isSearchBarEmpty {
+                        NavigationLink(destination: ContentView()){
+                            Text("See All")
+                                .font(.subheadline)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.trailing,20)
+                        }
+                        //                            }
+                    }
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(vegetables, id: \.id) { fruit in
                                 VStack{
-                                    AsyncImage(url: URL(string: "http://192.168.0.102/academy23/assets/apple.jpg")) { phase in
+                                    AsyncImage(url: URL(string: fruit.imageUrl)) { phase in
                                         switch phase {
                                         case .empty:
                                             RoundedRectangle(cornerRadius: 25, style: .continuous)
@@ -145,19 +311,39 @@ struct ProducesView: View {
                                                 .frame(width: 80, height: 80)
                                         }
                                     }
-                                    Text("apple")
+                                    Text(fruit.title)
+                                        .font(.caption)
+                                        .foregroundColor(.black)
                                 }
                                 
                             }
+                            
                         }
                     }
-                    .padding(20)
                 }
+                .padding(20)
             }
             .navigationTitle("Produces")
+            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always), prompt: "Fruits, Vegetables, Meats and More") {
+                ForEach(searchResults, id: \.self) { result in
+                    Button {
+                        searchQuery = result.title
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    } label: {
+                        Label("Are you looking for \(result.title)?", systemImage: "magnifyingglass")
+                            .foregroundColor(.blue)
+                            .font(.body)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .simultaneousGesture(TapGesture())
+//                    .buttonStyle(PlainButtonStyle())
+                }
+            }
         }
+        
     }
 }
+
 
 @available(iOS 16.0, *)
 struct ProducesView_Previews: PreviewProvider {
