@@ -14,11 +14,14 @@
 		6302C2AA289FBF5F00D61B61 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6302C2A9289FBF5F00D61B61 /* ViewController.swift */; };
 		63E9CD6728AACF1D00FD0BAA /* Detector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E9CD6628AACF1D00FD0BAA /* Detector.swift */; };
 		63E9CD6928AACFB000FD0BAA /* YOLOv3TinyInt8LUT.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 63E9CD6828AACFB000FD0BAA /* YOLOv3TinyInt8LUT.mlmodel */; };
+		DD5BF31929E414A400B69243 /* ModalSheetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5BF31829E414A400B69243 /* ModalSheetsView.swift */; };
+		DD5BF31B29E419D500B69243 /* SeeAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5BF31A29E419D500B69243 /* SeeAllView.swift */; };
 		DDAA298229DD599B0052F14F /* ProducesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAA298129DD599B0052F14F /* ProducesView.swift */; };
+		DDF3A96D29E6381C00970A38 /* DetailProduceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF3A96C29E6381C00970A38 /* DetailProduceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6302C298289FBCAC00D61B61 /* DetectorAppSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DetectorAppSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6302C298289FBCAC00D61B61 /* familiAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = familiAR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6302C29B289FBCAC00D61B61 /* ObjectDetectorSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectDetectorSwiftUIApp.swift; sourceTree = "<group>"; };
 		6302C29D289FBCAC00D61B61 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6302C29F289FBCAD00D61B61 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -26,7 +29,10 @@
 		6302C2A9289FBF5F00D61B61 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		63E9CD6628AACF1D00FD0BAA /* Detector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detector.swift; sourceTree = "<group>"; };
 		63E9CD6828AACFB000FD0BAA /* YOLOv3TinyInt8LUT.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = YOLOv3TinyInt8LUT.mlmodel; sourceTree = "<group>"; };
+		DD5BF31829E414A400B69243 /* ModalSheetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSheetsView.swift; sourceTree = "<group>"; };
+		DD5BF31A29E419D500B69243 /* SeeAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllView.swift; sourceTree = "<group>"; };
 		DDAA298129DD599B0052F14F /* ProducesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProducesView.swift; sourceTree = "<group>"; };
+		DDF3A96C29E6381C00970A38 /* DetailProduceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailProduceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +57,7 @@
 		6302C299289FBCAC00D61B61 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6302C298289FBCAC00D61B61 /* DetectorAppSwiftUI.app */,
+				6302C298289FBCAC00D61B61 /* familiAR.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,6 +68,9 @@
 				6302C29B289FBCAC00D61B61 /* ObjectDetectorSwiftUIApp.swift */,
 				6302C29D289FBCAC00D61B61 /* ContentView.swift */,
 				DDAA298129DD599B0052F14F /* ProducesView.swift */,
+				DD5BF31A29E419D500B69243 /* SeeAllView.swift */,
+				DDF3A96C29E6381C00970A38 /* DetailProduceView.swift */,
+				DD5BF31829E414A400B69243 /* ModalSheetsView.swift */,
 				6302C2A9289FBF5F00D61B61 /* ViewController.swift */,
 				63E9CD6628AACF1D00FD0BAA /* Detector.swift */,
 				63E9CD6828AACFB000FD0BAA /* YOLOv3TinyInt8LUT.mlmodel */,
@@ -82,9 +91,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6302C297289FBCAC00D61B61 /* DetectorAppSwiftUI */ = {
+		6302C297289FBCAC00D61B61 /* familiAR */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6302C2A6289FBCAD00D61B61 /* Build configuration list for PBXNativeTarget "DetectorAppSwiftUI" */;
+			buildConfigurationList = 6302C2A6289FBCAD00D61B61 /* Build configuration list for PBXNativeTarget "familiAR" */;
 			buildPhases = (
 				6302C294289FBCAC00D61B61 /* Sources */,
 				6302C295289FBCAC00D61B61 /* Frameworks */,
@@ -94,9 +103,9 @@
 			);
 			dependencies = (
 			);
-			name = DetectorAppSwiftUI;
+			name = familiAR;
 			productName = ObjectDetectorSwiftUI;
-			productReference = 6302C298289FBCAC00D61B61 /* DetectorAppSwiftUI.app */;
+			productReference = 6302C298289FBCAC00D61B61 /* familiAR.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -114,7 +123,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6302C293289FBCAC00D61B61 /* Build configuration list for PBXProject "DetectorAppSwiftUI" */;
+			buildConfigurationList = 6302C293289FBCAC00D61B61 /* Build configuration list for PBXProject "familiAR" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -127,7 +136,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6302C297289FBCAC00D61B61 /* DetectorAppSwiftUI */,
+				6302C297289FBCAC00D61B61 /* familiAR */,
 			);
 		};
 /* End PBXProject section */
@@ -152,8 +161,11 @@
 				6302C2AA289FBF5F00D61B61 /* ViewController.swift in Sources */,
 				63E9CD6928AACFB000FD0BAA /* YOLOv3TinyInt8LUT.mlmodel in Sources */,
 				6302C29E289FBCAC00D61B61 /* ContentView.swift in Sources */,
+				DDF3A96D29E6381C00970A38 /* DetailProduceView.swift in Sources */,
 				DDAA298229DD599B0052F14F /* ProducesView.swift in Sources */,
+				DD5BF31B29E419D500B69243 /* SeeAllView.swift in Sources */,
 				6302C29C289FBCAC00D61B61 /* ObjectDetectorSwiftUIApp.swift in Sources */,
+				DD5BF31929E414A400B69243 /* ModalSheetsView.swift in Sources */,
 				63E9CD6728AACF1D00FD0BAA /* Detector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +312,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.masbek.DetectorApp;
-				PRODUCT_NAME = DetectorAppSwiftUI;
+				PRODUCT_NAME = familiAR;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -332,7 +344,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.masbek.DetectorApp;
-				PRODUCT_NAME = DetectorAppSwiftUI;
+				PRODUCT_NAME = familiAR;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -342,7 +354,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6302C293289FBCAC00D61B61 /* Build configuration list for PBXProject "DetectorAppSwiftUI" */ = {
+		6302C293289FBCAC00D61B61 /* Build configuration list for PBXProject "familiAR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6302C2A4289FBCAD00D61B61 /* Debug */,
@@ -351,7 +363,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6302C2A6289FBCAD00D61B61 /* Build configuration list for PBXNativeTarget "DetectorAppSwiftUI" */ = {
+		6302C2A6289FBCAD00D61B61 /* Build configuration list for PBXNativeTarget "familiAR" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6302C2A7289FBCAD00D61B61 /* Debug */,

@@ -53,6 +53,9 @@ struct ProducesView: View {
     //        self.directoryAssets = directoryAssets
     //
     //    }
+    
+    //IP Academy = 10.62.55.75
+    //IP Kosan = 192.168.0.109
     var fruits: [Produces] = [
         Produces(id: 0, title: "apple", imageUrl: "http://192.168.0.109/academy23/assets/apple.jpg"),
         Produces(id: 1, title: "avocado", imageUrl: "http://192.168.0.109/academy23/assets/avocado.jpg")
@@ -63,34 +66,34 @@ struct ProducesView: View {
         Produces(id: 1, title: "carrot", imageUrl: "http://192.168.0.109/academy23/assets/carrot.jpg")
     ];
     
-    var allProduces: [[String: Any]] = []
-    
-    
-    init() {
-        for produce in fruits {
-            allProduces.append(["type": "Fruits", "produce": produce])
-        }
-        for produce in vegetables {
-            allProduces.append(["type": "Vegetables", "produce": produce])
-        }
-        
-    }
-    
-    var filteredFruits: [Produces] {
-        fruits.filter { fruit in
-            searchQuery.isEmpty ||
-            (fruit.title.lowercased().starts(with: searchQuery.lowercased()) &&
-             fruit.title.lowercased().first == searchQuery.lowercased().first)
-        }
-    }
-    
-    var filteredVegetables: [Produces] {
-        vegetables.filter { vegetable in
-            searchQuery.isEmpty ||
-            (vegetable.title.lowercased().starts(with: searchQuery.lowercased()) &&
-             vegetable.title.lowercased().first == searchQuery.lowercased().first)
-        }
-    }
+//    var allProduces: [[String: Any]] = []
+//
+//
+//    init() {
+//        for produce in fruits {
+//            allProduces.append(["type": "Fruits", "produce": produce])
+//        }
+//        for produce in vegetables {
+//            allProduces.append(["type": "Vegetables", "produce": produce])
+//        }
+//
+//    }
+//    
+//    var filteredFruits: [Produces] {
+//        fruits.filter { fruit in
+//            searchQuery.isEmpty ||
+//            (fruit.title.lowercased().starts(with: searchQuery.lowercased()) &&
+//             fruit.title.lowercased().first == searchQuery.lowercased().first)
+//        }
+//    }
+//    
+//    var filteredVegetables: [Produces] {
+//        vegetables.filter { vegetable in
+//            searchQuery.isEmpty ||
+//            (vegetable.title.lowercased().starts(with: searchQuery.lowercased()) &&
+//             vegetable.title.lowercased().first == searchQuery.lowercased().first)
+//        }
+//    }
     
     var searchResults: [Produces] {
         if searchQuery.isEmpty {
@@ -153,7 +156,7 @@ struct ProducesView: View {
                             .fontWeight(.bold)
                             .padding(.leading, 10)
                         //                            if isSearchBarEmpty {
-                        NavigationLink(destination: ContentView()){
+                        NavigationLink(destination: SeeAllView(category: "Fruits", produces: fruits)){
                             Text("See All")
                                 .font(.subheadline)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -208,12 +211,12 @@ struct ProducesView: View {
                 //for fruits
                 VStack(alignment: .leading){
                     HStack{
-                        Text("Fruits")
+                        Text("Meats")
                             .font(.title3)
                             .fontWeight(.bold)
                             .padding(.leading, 10)
                         //                            if isSearchBarEmpty {
-                        NavigationLink(destination: ContentView()){
+                        NavigationLink(destination: SeeAllView(category: "Meats", produces: fruits)){
                             Text("See All")
                                 .font(.subheadline)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -272,7 +275,7 @@ struct ProducesView: View {
                             .fontWeight(.bold)
                             .padding(.leading, 10)
                         //                            if isSearchBarEmpty {
-                        NavigationLink(destination: ContentView()){
+                        NavigationLink(destination: SeeAllView(category: "Vegetables", produces: vegetables)){
                             Text("See All")
                                 .font(.subheadline)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -282,37 +285,41 @@ struct ProducesView: View {
                     }
                     ScrollView(.horizontal) {
                         HStack {
-                            ForEach(vegetables, id: \.id) { fruit in
-                                VStack{
-                                    AsyncImage(url: URL(string: fruit.imageUrl)) { phase in
-                                        switch phase {
-                                        case .empty:
-                                            RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                                .fill(.red)
-                                                .frame(width: 80, height: 80)
-                                        case .success(let image):
-                                            image.resizable()
-                                                .resizable()
-                                                .cornerRadius(40)
-                                                .frame(width: 80, height: 80)
-                                            
-                                        case .failure:
-                                            Image(systemName: "photo")
-                                                .frame(maxWidth: 300, maxHeight: 100)
-                                        @unknown default:
-                                            // Since the AsyncImagePhase enum isn't frozen,
-                                            // we need to add this currently unused fallback
-                                            // to handle any new cases that might be added
-                                            // in the future:
-                                            RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                                .fill(.red)
-                                                .frame(width: 80, height: 80)
+                            
+                            ForEach(vegetables, id: \.id) { vegetable in
+                                if(searchQuery.isEmpty || searchQuery == vegetable.title)
+                                {
+                                    VStack{
+                                        AsyncImage(url: URL(string: vegetable.imageUrl)) { phase in
+                                            switch phase {
+                                            case .empty:
+                                                RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                    .fill(.red)
+                                                    .frame(width: 80, height: 80)
+                                            case .success(let image):
+                                                image.resizable()
+                                                    .resizable()
+                                                    .cornerRadius(40)
+                                                    .frame(width: 80, height: 80)
+                                                
+                                            case .failure:
+                                                Image(systemName: "photo")
+                                                    .frame(maxWidth: 300, maxHeight: 100)
+                                            @unknown default:
+                                                // Since the AsyncImagePhase enum isn't frozen,
+                                                // we need to add this currently unused fallback
+                                                // to handle any new cases that might be added
+                                                // in the future:
+                                                RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                                    .fill(.red)
+                                                    .frame(width: 80, height: 80)
+                                            }
                                         }
+                                        Text(vegetable.title)
+                                            .font(.caption)
                                     }
-                                    Text(fruit.title)
-                                        .font(.caption)
+                                    
                                 }
-                                
                             }
                             
                         }
